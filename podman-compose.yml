@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: docker.io/library/postgres:18.3
+    container_name: navaritha_postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    networks:
+      - navaritha_net
+    volumes:
+      - ./db/psql_init.sql:/docker-entrypoint-initdb.d/init.sql:Z
+      - ./postgres_data:/var/lib/postgresql:Z
+
+  mongo:
+    image: docker.io/library/mongo:4.4
+    container_name: navaritha_mongo
+    environment:
+      - MONGO_URL=mongodb://app:app@mongo:27017/navaritha
+      - PORT=3000
+      - JWT_SECRET=jwt
+      - PGUSER=root
+      - PGHOST=postgres
+      - PGPASSWORD=root
+      - PGDATABASE=postgres
+      - PGPORT=5432
+    networks:
+      - navaritha_net
+    volumes:
+      - ./db/mongo_init.js:/docker-entrypoint-initdb.d/mongo-init.js:Z
+      - ./mongo_data:/data/db:Z
+
+  node:
+    image: docker.io/library/node:22
+    container_name: navaritha_node
+    working_dir: /app
+    volumes:
+      - ./:/app:Z
+      - ./node_modules/:/app/node_modules
+      - ./app_media:/app/app_media:Z
+    networks:
+      - navaritha_net
+    environment:
+      - MONGO_URL=mongodb://app:app@mongo:27017/navaritha
+      - PORT=3000
+    command: sh -c "npm install && node src/main.js"
+    depends_on:
+      - mongo
+      - postgres
+
+  nginx:
+    image: docker.io/library/nginx:alpine
+    container_name: navaritha_nginx
+    networks:
+      - navaritha_net
+    ports:
+      - "9900:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:Z
+      - ./public:/usr/share/nginx/html:Z
+      - ./app_media:/app/app_media:Z
+    depends_on:
+      - node
+
+networks:
+  navaritha_net:
+    driver: bridge

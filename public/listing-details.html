@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Navaritha — Equipment Listing Details.">
+    <title>Listing Details — Navaritha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/listing-details.css">
+    <script src="js/auth-guard.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="main-navbar">
+        <div class="nav-container">
+            <a href="listings.html" class="nav-brand">
+                <span class="brand-icon">🌿</span>
+                <span class="brand-name">Navaritha</span>
+            </a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li class="lang-switcher">
+                    <button class="lang-switcher-btn" id="langSwitcherBtn" aria-label="Select Language">
+                        🌐
+                    </button>
+                    <div class="lang-switcher-menu" id="langSwitcherMenu">
+                        <a href="#" class="lang-option active" data-lang="en">English</a>
+                        <a href="#" class="lang-option" data-lang="kn">Kannada</a>
+                    </div>
+                </li>
+                <li><a href="listings.html" data-i18n>Listing</a></li>
+                <li><a href="upload.html" data-i18n>Create Listing</a></li>
+                <li><a href="my-bookings.html" data-i18n>My Bookings</a></li>
+                <li><a href="#" onclick="logout()" data-i18n>Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="details-container">
+
+        <div id="loadingState" class="state-container">
+            <div class="spinner"></div>
+            <p data-i18n>Loading listing details...</p>
+        </div>
+
+        <div id="errorState" class="state-container" style="display: none;">
+            <p class="error-msg" id="errorMsg"></p>
+            <a href="listings.html" class="btn-primary" data-i18n>Back to Listings</a>
+        </div>
+
+        <div id="layoutWrapper" class="layout-wrapper" style="display: none;">
+            <div id="detailsContent" class="details-grid">
+                <!-- Left Side: Images -->
+                <div class="details-gallery">
+                    <div class="main-image-container">
+                        <img id="mainImage" src="" alt="Equipment Image"
+                            onerror="this.src='/assets/placeholder-equipment.png'">
+                    </div>
+                    <div class="thumbnail-list" id="thumbnailList"></div>
+                </div>
+                <div class="chat-section section-block">
+                    <h3 data-i18n>Chat with Owner</h3>
+                    <div id="chatWindow" class="chat-window">
+                        <div id="chatMessages" class="chat-messages">
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chatInput" placeholder="Write a message..." data-i18n-placeholder>
+                            <button id="sendMsgBtn" title="Send"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Info -->
+                <div class="details-info">
+                    <div class="badge-category" id="itemCategory">Category</div>
+                    <h1 class="title" id="itemTitle">Equipment Title</h1>
+                    <div class="price-box">
+                        <div class="price"><span id="itemPrice">0</span> <span class="per-day" data-i18n>/ hr</span>
+                        </div>
+                    </div>
+
+                    <div class="meta-info">
+                        <div class="meta-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"
+                                height="18">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            <span id="itemOwner">Owner Name</span>
+                        </div>
+                    </div>
+
+                    <div class="section-block">
+                        <h3 data-i18n>Availability Windows</h3>
+                        <ul class="availability-list" id="availabilityList"></ul>
+                    </div>
+
+                    <div class="section-block">
+                        <h3 data-i18n>Description</h3>
+                        <p class="description-text" id="itemDescription">No description available.</p>
+                    </div>
+
+                    <div class="section-block" id="historySection">
+                        <h3 data-i18n>Product History</h3>
+                        <div class="history-list" id="itemHistory"></div>
+                    </div>
+
+                    <div class="action-box">
+                        <button class="btn-primary" id="bookBtn" data-i18n>Book / Contact Owner</button>
+                        <button class="btn-secondary" onclick="window.history.back()" data-i18n>Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel for Booking/Contact -->
+            <div class="booking-panel" id="bookingPanel">
+                <div class="booking-header">
+                    <h3 data-i18n>Book / Contact Owner</h3>
+                    <button class="booking-close-btn" id="bookingCloseBtn" aria-label="Close panel">✕</button>
+                </div>
+                <div class="booking-body">
+                    <div class="qr-section">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=NavarithaDemoPayment"
+                            alt="Demo QR Code" class="qr-image">
+                        <h4 data-i18n>Scan QR to Proceed with Booking</h4>
+                        <p class="qr-helper-text" data-i18n>This is a demo QR code for payment simulation</p>
+                    </div>
+
+                    <div class="contact-section">
+                        <div class="date-selection"
+                            style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 5px;">
+                            <input type="datetime-local" id="bookStartDate" class="date-input"
+                                style="flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border-light); font-family: var(--font-family); color: var(--text-primary); outline: none;"
+                                required>
+                            <input type="datetime-local" id="bookEndDate" class="date-input"
+                                style="flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border-light); font-family: var(--font-family); color: var(--text-primary); outline: none;"
+                                required>
+                        </div>
+
+                        <div class="cost-summary"
+                            style="margin-bottom: 10px; padding: 12px; background: var(--bg-body); border-radius: 8px; border: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 500; color: var(--text-secondary);" data-i18n>Total Cost:</span>
+                            <span id="calculatedCostDisplay"
+                                style="font-weight: 800; font-size: 1.2rem; color: var(--primary);">₹0</span>
+                        </div>
+
+                        <a href="#" id="whatsappBtn" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                                <path
+                                    d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z">
+                                </path>
+                            </svg>
+                            <span data-i18n>Chat on WhatsApp</span>
+                        </a>
+                        <button id="confirmBookingBtn" class="btn-confirm-booking">
+                            <svg class="btn-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <span class="btn-text" data-i18n>Confirm Booking</span>
+                            <div class="btn-spinner" style="display: none;"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Navaritha. All rights reserved.</p>
+    </footer>
+
+    <script src="js/translator.js"></script>
+    <script src="js/listing-details.js"></script>
+</body>
+
+</html>

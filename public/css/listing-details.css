@@ -1,0 +1,905 @@
+/* =============================================
+   NAVARITHA — Listing Details Design
+   ============================================= */
+
+:root {
+    --primary: #16a34a;
+    --primary-light: #4ade80;
+    --primary-dark: #15803d;
+    --primary-glow: rgba(22, 163, 74, 0.12);
+    --bg-body: #f5f7f2;
+    --bg-card: #ffffff;
+    --bg-subtle: #f0f4ec;
+    --text-primary: #1a2e1a;
+    --text-secondary: #4a5d4a;
+    --text-muted: #8a9a8a;
+    --border-light: #e8ede4;
+    --shadow-card: 0 4px 16px rgba(22, 101, 52, 0.06);
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --navbar-height: 64px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding-top: var(--navbar-height);
+}
+
+/* Base Navbar Styles Copied for consistency */
+/* Base Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--navbar-height);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(214, 224, 208, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+.navbar.scrolled {
+    box-shadow: 0 2px 16px rgba(22, 101, 52, 0.08);
+}
+
+.nav-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--primary-dark);
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+
+.brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    transition: all 0.2s;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+    background: var(--primary-glow);
+    color: var(--primary-dark);
+}
+
+/* Language Switcher */
+.lang-switcher {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-switcher-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lang-switcher-btn:hover {
+    background: var(--primary-glow);
+    color: var(--primary-dark);
+}
+
+.lang-switcher-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1100;
+}
+
+.lang-switcher-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-option {
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    text-align: left;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: 0.2s;
+    display: block;
+}
+
+.lang-option:hover {
+    background: var(--bg-subtle);
+    color: var(--primary-dark);
+}
+
+.lang-option.active {
+    background: var(--primary) !important;
+    color: white !important;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.mobile-menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Main Container */
+.details-container {
+    max-width: 1200px;
+    margin: 40px auto 60px;
+    padding: 0 24px;
+}
+
+/* State Containers */
+.state-container {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-light);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.error-msg {
+    color: #ef4444;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Grid Layout */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 32px;
+    border: 1px solid var(--border-light);
+}
+
+@media (max-width: 900px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Gallery */
+.details-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.main-image-container {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+}
+
+.main-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #fff;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.thumbnail-list img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s;
+}
+
+.thumbnail-list img.active,
+.thumbnail-list img:hover {
+    border-color: var(--primary);
+}
+
+/* Info Side */
+.details-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.badge-category {
+    align-self: flex-start;
+    background: var(--primary-glow);
+    color: var(--primary-dark);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.title {
+    font-size: 2rem;
+    color: var(--text-primary);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.price-box {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light);
+}
+
+.price {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.price::before {
+    content: '₹';
+}
+
+.per-day {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.meta-info {
+    display: flex;
+    gap: 24px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.section-block {
+    background: var(--bg-subtle);
+    padding: 20px;
+    border-radius: var(--radius-md);
+}
+
+.section-block h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.availability-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.availability-list li {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+}
+
+.description-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+}
+
+.history-list {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+}
+
+/* Actions */
+.action-box {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    flex: 1;
+    transition: 0.2s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border-light);
+    padding: 12px 28px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+.site-footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+/* =============================================
+   Layout Wrapper & Booking Panel
+   ============================================= */
+.layout-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    width: 100%;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Ensure details grid behaves appropriately within a flex parent */
+.details-grid {
+    flex: 1;
+    min-width: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.booking-panel {
+    width: 0;
+    opacity: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
+    transform: translateX(40px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-wrapper.booking-active .booking-panel {
+    width: 380px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.booking-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.booking-header h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.booking-close-btn {
+    background: var(--bg-subtle);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.booking-close-btn:hover {
+    background: var(--border-light);
+    color: var(--text-primary);
+}
+
+.booking-body {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.qr-section {
+    text-align: center;
+    background: var(--bg-subtle);
+    padding: 28px 20px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+}
+
+.qr-image {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 16px;
+    border-radius: var(--radius-sm);
+    background: white;
+    padding: 10px;
+    box-shadow: var(--shadow-card);
+    display: block;
+}
+
+.qr-section h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.qr-helper-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.contact-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.btn-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.btn-whatsapp:hover {
+    background: #1DA851;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.btn-confirm-booking {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-confirm-booking::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+    transition: all 0.6s;
+}
+
+.btn-confirm-booking:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+}
+
+.btn-confirm-booking:hover::before {
+    left: 100%;
+}
+
+.btn-confirm-booking:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.btn-confirm-booking:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    filter: grayscale(1);
+}
+
+.btn-icon {
+    transition: transform 0.3s ease;
+}
+
+.btn-confirm-booking:hover .btn-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.btn-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        height: 56px;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 56px;
+        right: 0;
+        background: var(--bg-card);
+        flex-direction: column;
+        padding: 20px;
+        width: 260px;
+        box-shadow: var(--shadow-lg);
+        border-radius: 0 0 0 var(--radius-lg);
+        gap: 8px;
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .lang-switcher {
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .lang-switcher-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin-top: 10px;
+        width: 100%;
+        display: none;
+    }
+
+    .lang-switcher-menu.active {
+        display: flex;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .layout-wrapper {
+        flex-direction: column;
+    }
+
+    .layout-wrapper.booking-active .booking-panel {
+        width: 100%;
+        transform: translateY(0);
+    }
+
+    .booking-panel {
+        width: 100%;
+        transform: translateY(20px);
+    }
+}
+
+/* =============================================
+   MODERN CHAT SECTION
+   ============================================= */
+.chat-section {
+    margin-top: 24px;
+    border: 1px solid var(--border-light);
+    background: var(--bg-card) !important;
+}
+
+.chat-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.chat-section h3::before {
+    content: '💬';
+    font-size: 1.2rem;
+}
+
+.chat-window {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background: var(--bg-body);
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.msg {
+    padding: 10px 14px;
+    border-radius: 16px;
+    max-width: 85%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    position: relative;
+    box-shadow: var(--shadow-card);
+}
+
+.msg strong {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    opacity: 0.8;
+}
+
+.msg.sent {
+    align-self: flex-end;
+    background: var(--primary);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.msg.received {
+    align-self: flex-start;
+    background: white;
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+    border-bottom-left-radius: 4px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid var(--border-light);
+    gap: 10px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--border-light);
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.chat-input-area input:focus {
+    border-color: var(--primary);
+}
+
+#sendMsgBtn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 1.1rem;
+}
+
+#sendMsgBtn:hover {
+    background: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+#sendMsgBtn::after {
+    content: '➤';
+}
+
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    /* Gallery/Chat on left, Info on right */
+    gap: 40px;
+}
+
+.details-gallery {
+    grid-column: 1;
+}
+
+.chat-section {
+    grid-column: 1;
+    margin-top: 20px;
+}
+
+.details-info {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}

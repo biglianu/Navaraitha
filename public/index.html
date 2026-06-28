@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign Up</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="lang-switcher">
+        <button class="lang-switcher-btn" id="langSwitcherBtn" aria-label="Select Language">🌐</button>
+        <div class="lang-switcher-menu" id="langSwitcherMenu">
+            <a href="#" class="lang-option active" data-lang="en">English</a>
+            <a href="#" class="lang-option" data-lang="kn">Kannada</a>
+        </div>
+    </div>
+
+    <div class="auth-wrapper">
+        <div class="auth-container" id="authContainer">
+
+            <div class="form-box signup">
+                <form id="signupForm" autocomplete="off">
+                    <h2 data-i18n>Create Account</h2>
+                    <div class="input-group">
+                        <label data-i18n>Username</label>
+                        <input type="text" name="username" id="regUser" data-i18n-placeholder
+                            placeholder="Choose a username" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n>Phone Number</label>
+                        <div class="phone-input-wrapper">
+                            <span class="prefix">+91</span>
+                            <input type="tel" id="regPhone" placeholder="9876543210" maxlength="10" required>
+                            <input type="hidden" name="mobileno" id="fullPhone">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n>Password</label>
+                        <input type="password" name="password" id="regPass" data-i18n-placeholder
+                            placeholder="e.g. Farm@2026" required>
+                        <span class="password-hint" data-i18n>Min 3 characters</span>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsAgree" required>
+                        <label for="termsAgree">
+                            <span data-i18n>I agree to the</span>
+                            <a href="#" id="openTerms" class="terms-link" data-i18n>Terms and Conditions</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="main-btn" data-i18n>Sign Up</button>
+                    <p class="toggle-text">
+                        <span data-i18n>Already have an account?</span>
+                        <span class="toggle-link" id="toLogin" data-i18n>Login</span>
+                    </p>
+                </form>
+            </div>
+
+            <div class="form-box login">
+                <form id="loginForm">
+                    <h2 data-i18n>Welcome Back</h2>
+                    <div class="input-group">
+                        <label data-i18n>Username</label>
+                        <input type="text" name="username" id="loginUser" data-i18n-placeholder
+                            placeholder="Enter username" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n>Password</label>
+                        <input type="password" name="password" id="loginPass" data-i18n-placeholder
+                            placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="main-btn" data-i18n>Login</button>
+                    <p class="toggle-text">
+                        <span data-i18n>Don't have an account?</span>
+                        <span class="toggle-link" id="toSignup" data-i18n>Sign Up</span>
+                    </p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="termsModal">
+        <div class="modal-content">
+            <h3 data-i18n>Terms and Conditions</h3>
+            <div class="modal-body">
+                <p data-i18n>By accessing and using this platform to rent machinery, the customer agrees to handle and
+                    operate the equipment carefully and only for its intended purpose. The customer accepts full
+                    responsibility for the machinery throughout the entire rental period. Any damage, loss, or
+                    malfunction caused to the machinery or its parts due to improper use, negligence, or mishandling by
+                    the customer will be the sole responsibility of the customer, and the customer must bear the full
+                    cost of repair or replacement. All machinery will be inspected upon return, and if any damage is
+                    identified that was not present at the time of rental, the customer will be required to pay the
+                    applicable repair or replacement charges. By continuing to use this platform, the customer confirms
+                    that they have read, understood, and agreed to comply with these terms and conditions.</p>
+            </div>
+            <button class="main-btn" id="closeTerms" data-i18n>Close</button>
+        </div>
+    </div>
+
+    <script src="js/translator.js"></script>
+    <script src="js/auth-guard.js?v=1.0.1"></script>
+    <script src="js/login.js?v=1.0.2"></script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+CREATE DATABASE navaritha;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'app') THEN
+        CREATE ROLE app WITH LOGIN PASSWORD 'app';
+    END IF;
+END
+$$;
+
+\c navaritha;
+
+CREATE TABLE IF NOT EXISTS chat_messages (
+    id SERIAL PRIMARY KEY,
+    listing_id VARCHAR(100) NOT NULL,
+    sender VARCHAR(50) NOT NULL,
+    receiver VARCHAR(50) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    mobileno VARCHAR(15) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+GRANT CONNECT ON DATABASE navaritha TO app;
+GRANT USAGE ON SCHEMA public TO app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app;
+
+SELECT 'Database, User, and Table are ready!' AS Status;
